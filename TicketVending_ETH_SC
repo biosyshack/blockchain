@@ -1,0 +1,23 @@
+// Buy tickets with Ethereum until all tickets are sold.
+
+contract TicketVending{
+    address owner;
+    uint public tickets;
+    uint constant price = 1 ether;
+    mapping(address => uint) public purchasers;
+    
+    function sellTickets(){
+        owner = msg.sender;
+        tickets = 5;
+    }
+    
+    function buyTickets(uint amount) payable{
+        if (msg.value != (amount*price) || amount>tickets){ 
+            //check if right amount of ether sent and not more tickets bought than available
+            throw;
+        }
+        
+        purchasers[msg.sender] += amount;
+        tickets -= amount;
+    }
+}
